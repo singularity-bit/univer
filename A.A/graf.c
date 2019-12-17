@@ -5,7 +5,9 @@
 #define Grey 2
 #define Black 3
 
-int k,kq,nd[SIZE],color[SIZE],queue[SIZE],mt[SIZE][SIZE];
+int k,kq,nd[SIZE],color[SIZE],queue[SIZE],mt[SIZE][SIZE],mst[SIZE][SIZE],visitate[SIZE];
+int contorVizitate=1;
+int suma=0;
 
 void introd_nod(int a){
     nd[k]=a;
@@ -114,22 +116,58 @@ void BreadthSearch(){
     }
 
 }
+void prim(){
+    int iMin,jMin,costMin=90,i,j;
+    while(contorVizitate<k){
+        for(i=0;i<k;i++){
+            for(j=0;j<k;j++){
+                
+                    if((visitate[i]==0)||(visitate[j]==0)&&(mst[i][j]==0)&&(mt[i][j]<costMin)&&(mt[i][j]>0)){
+                        costMin=mt[i][j];
+                        iMin=i;
+                        jMin=j;
+                }
+                        mst[iMin][jMin]=1;
+                        if(visitate[iMin]==0){
+                            visitate[iMin]=1;
+                            contorVizitate++;
+                        }
+                            if(visitate[jMin]==0){
+                                visitate[jMin]=1;
+                                contorVizitate++;
+                            }
+                            suma+=costMin;
+                            costMin=999;
+
+             }
+                                
+        }
+
+        
+    }
+ 
+   
+    printf("costul minim: %d",suma);
+    
+}
 
 int main(){
     int sw,a,b;
 
-    introd_nod(0);
+    
     introd_nod(1);
     introd_nod(2);
     introd_nod(3);
     introd_nod(4);
     introd_nod(5);
 
-    introd_arc(0,1);
+    
     introd_arc(1,2);
+    introd_arc(1,3);
     introd_arc(1,4);
-    introd_arc(2,3);
+    introd_arc(2,5);
     introd_arc(4,5);
+    introd_arc(3,5);
 
     while(1){
         printf("\n\n[0] Iesire\n");
@@ -141,7 +179,8 @@ int main(){
         printf("[6] Stergere arc\n");
         printf("[7] Traversare in adancime\n");
         printf("[8] Traversare prin cuprindere\n");
-        printf("[9] Afisare\n");
+        printf("[9].Prim\n");
+        printf("[10] Afisare\n");
         printf("Opțiunea:");
         scanf("%d",&sw);
         switch(sw){
@@ -190,8 +229,10 @@ int main(){
 
             case 8: BreadthSearch();
                 break;
+            case 9: prim();
+                break;
 
-            case 9: afis();
+            case 10: afis();
                 break;
         }
     }
